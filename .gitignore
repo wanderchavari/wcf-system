@@ -1,0 +1,9 @@
+# Logs e Cache
+*.log
+/cache/
+/vendor/
+# Configurações de Banco de Dados (se for um arquivo separado)
+config.local.php 
+# Pastas de ambiente de desenvolvimento
+.vscode/
+.idea/

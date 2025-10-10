@@ -1,0 +1,132 @@
+/* public/assets/css/style.css */
+
+/* Definição de Cores Personalizadas (Apenas para referência) */
+:root {
+    --wcf-verde-escuro: #003300; /* Tom de verde escuro para as laterais */
+    --wcf-verde-nav: #004d00; /* Tom de verde para a navbar */
+    --wcf-fundo-base: #212529;   /* Cor do seu bg-dark padrão */
+}
+
+body {
+    /* 1. Aplica a cor verde escura como fallback e para as laterais */
+    background-color: var(--wcf-verde-escuro) !important; 
+    
+    /* 2. Aplica a imagem */
+    background-image: url('../img/campo1.jpg');
+    
+    /* 3. Posiciona a imagem no topo e centralizada horizontalmente */
+    background-position: top center;
+    
+    /* 4. Garante que a imagem se ajuste horizontalmente e não repita */
+    background-repeat: no-repeat;
+    
+    /* 5. Faz com que a imagem cubra a largura total, mas mantém a proporção.
+       Isso faz com que a imagem seja fixada, e o conteúdo 'role' sobre ela. */
+    background-size: contain; 
+    
+    /* 6. A imagem fica fixa, e o conteúdo da página rola por cima dela. */
+    background-attachment: fixed;
+}
+
+/* 💡 Sobrescreve a cor de fundo da Barra de Navegação e Rodapé */
+.navbar, 
+.navbar-dark.bg-dark,
+footer.bg-dark {
+    background-color: var(--wcf-verde-nav) !important; 
+    /* Garante que o texto da nav continue branco */
+    color: var(--bs-light) !important; 
+}
+
+/* Opcional: Ajusta a cor da borda do menu */
+.navbar-dark.bg-dark.border-bottom.border-secondary {
+    border-color: #007300 !important; /* Um verde mais forte para a linha */
+}
+
+.card-header-verde {
+    background-color: var(--wcf-verde-nav) !important; 
+    color: var(--bs-light); /* Garante que o texto seja branco */
+}
+
+/* Opcional: Adicionar uma leve transparência ao conteúdo principal 
+   para que o fundo fique mais visível, mas o texto permaneça legível. */
+.container {
+    /* Exemplo: Fundo ligeiramente opaco para melhor contraste do texto */
+    background-color: rgba(33, 37, 41, 0.8); /* Cor do bg-dark com 80% de opacidade */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo para dar um toque mais moderno */
+.hero-section {
+    background-color: #f8f9fa; /* Light Gray */
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    margin-bottom: 2rem;
+}
+.copa-ouro {
+    color: #FFD700 !important; 
+    font-weight: bold;
+}
+
+.copa-prata {
+    color: #C0C0C0 !important; 
+    font-weight: bold;
+}
+
+.copa-bronze {
+    color: #CD7F32 !important; 
+    font-weight: bold;
+}
+.copa-detalhes-page h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+.podium-bar {
+    /* Define o fundo de acordo com a hierarquia das cores */
+    /* A cor será definida pelo background-color correspondente */
+    width: 100%;
+    
+    /* Estilização para parecer um bloco sólido */
+    border: 1px solid #333;
+    border-top: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra mais escura */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    /* Garante que o texto fique por cima (embora o z-index não seja estritamente necessário aqui) */
+    z-index: 1; 
+}
+
+/* Coloca a cor da barra do pódio baseada na cor do texto */
+/* Ouro (Campeão) */
+.podium-col:nth-child(2) .podium-bar { 
+    /* nth-child(2) é a segunda coluna, onde fica o 1º lugar */
+    background-color: #FFD700; /* Dourado */
+}
+
+/* Prata (Vice) */
+.podium-col:nth-child(1) .podium-bar { 
+    /* nth-child(1) é a primeira coluna, onde fica o 2º lugar */
+    background-color: #C0C0C0; /* Prateado */
+}
+
+/* Bronze (3º Lugar) */
+.podium-col:nth-child(3) .podium-bar { 
+    /* nth-child(3) é a terceira coluna, onde fica o 3º lugar */
+    background-color: #CD7F32; /* Bronze */
+}
+
+.subtitle-destaque {
+    /* Centralizado */
+    text-align: center; 
+    
+    /* Maior (Usamos 'h3' como referência, mas mantemos o p.lead) */
+    font-size: 2.25rem; 
+    
+    /* Negrito */
+    font-weight: bold;
+    
+    /* Mais espaçamento */
+    margin-top: 1.5rem; 
+    margin-bottom: 1.5rem;
+}

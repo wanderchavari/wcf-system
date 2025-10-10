@@ -1,0 +1,18 @@
+### Diretórios Gerados Automaticamente
+/vendor
+/node_modules
+/cache
+/logs
+
+### Configurações de IDEs e Sistemas Operacionais
+.git
+.gitignore
+.editorconfig
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+
+### Arquivos de Configuração de Ambiente
+# Mantemos o .env fora da imagem para não expor segredos
+.env

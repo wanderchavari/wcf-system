@@ -1,0 +1,16 @@
+{
+    "name": "wanderchavari/wcf-system",
+    "description": "Projeto database de Copas do Mundo de Futebol.",
+    "type": "project",
+    "require": {
+        "php": ">=8.3",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "public/src/",
+            "Core\\": "core/",
+            "Backend\\": "backend/"
+        }
+    }
+}
