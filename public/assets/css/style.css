@@ -130,3 +130,24 @@ footer.bg-dark {
     margin-top: 1.5rem; 
     margin-bottom: 1.5rem;
 }
+
+.ranking-ouro, .ranking-ouro td {
+    /* Um verde mais claro ou amarelo suave para o fundo da linha */
+    background-color: #FFD700 !important; 
+    color: #000000 !important; /* Texto em amarelo ouro */
+    font-weight: bold;
+}
+
+/* Destaque para a 2ª Posição (Prata/Vice) */
+.ranking-prata, .ranking-prata td {
+    background-color: #C0C0C0 !important; /* Um cinza mais claro que o bg-dark */
+    color: #000000 !important; /* Texto em cinza prata */
+    font-weight: bold;
+}
+
+/* Destaque para a 3ª Posição (Bronze) */
+.ranking-bronze, .ranking-bronze td {
+    background-color: #CD7F32 !important; /* Um cinza médio */
+    color: #000000 !important; /* Texto em cinza bronze */
+    font-weight: bold;
+}

@@ -48,8 +48,10 @@
 
                 <?php if (!empty($ranking)): ?>
                     <div class="table-responsive">
-                        <table class="table table-dark table-hover table-striped text-light border-secondary">
-                            
+                    <div class="table-responsive">
+                        <!-- <table class="table table-dark table-hover table-striped text-light border-secondary"> -->
+                        <table class="table table-dark text-light border-secondary">
+                        
                             <thead>
                                 <tr>
                                     <th scope="col">Pos.</th>
@@ -65,7 +67,20 @@
                             
                             <tbody>
                                 <?php foreach ($ranking as $posicao): ?>
-                                <tr>
+
+                                <?php 
+                                    // Define a classe de destaque baseada na posição
+                                    $classDestaque = '';
+                                    if ($posicao['classificacao_final'] == 1) {
+                                        $classDestaque = 'ranking-ouro';
+                                    } elseif ($posicao['classificacao_final'] == 2) {
+                                        $classDestaque = 'ranking-prata';
+                                    } elseif ($posicao['classificacao_final'] == 3) {
+                                        $classDestaque = 'ranking-bronze';
+                                    }
+                                ?>
+
+                                <tr class="<?= $classDestaque ?>">
                                     <td class="fw-bold"><?= $posicao['classificacao_final'] ?>º</td>
                                     <td><?= $posicao['nome_selecao'] ?> (<?= $posicao['sigla_iso'] ?>)</td>
                                     
