@@ -10,6 +10,7 @@
     <title>WCF System - <?= $titulo ?? 'Home' ?></title>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href='/assets/css/style.css' rel='stylesheet'>
 </head>
 
@@ -29,12 +30,14 @@
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" 
                     id="navbarDropdownCopas" 
                     role="button" 
+                    data-bs-toggle="dropdown" 
                     aria-expanded="false">
                         Copas do Mundo
                     </a>
                     
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownCopas">
-                        <li><h6 class="dropdown-header">Escolha o Ano</h6></li>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownCopas">
+                        
+                        <li><h6 class="dropdown-header">Detalhes por Edição</h6></li>
                         
                         <?php 
                         if (!empty($torneiosParaMenu) && is_array($torneiosParaMenu)):
@@ -52,6 +55,35 @@
                         
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/copas">Ver todas</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" 
+                    id="navbarDropdownRanking" 
+                    role="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+                        Ranking Histórico
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownRanking">
+                        
+                        <li><h6 class="dropdown-header">Visão Consolidada</h6></li>
+                        <li><a class="dropdown-item" href="/analise">
+                            Geral
+                        </a></li>
+                        
+                        <li><hr class="dropdown-divider"></li>
+                        
+                        <li><h6 class="dropdown-header">Por Período</h6></li>
+                        
+                        <li><a class="dropdown-item" href="/analise?listagem=old">
+                            Antigo (até 1990)
+                        </a></li>
+                        
+                        <li><a class="dropdown-item" href="/analise?listagem=modern">
+                            Moderno (desde 1994)
+                        </a></li>
                     </ul>
                 </li>
 
@@ -85,3 +117,73 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4 justify-content-center">
     
     </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Seleciona os elementos pai dos dropdowns para gerenciar o estado 'active'
+        const copasNavItem = document.getElementById('navbarDropdownCopas').closest('.nav-item');
+        const rankingNavItem = document.getElementById('navbarDropdownRanking').closest('.nav-item');
+        
+        // Seleciona o botão que dispara o dropdown
+        const copasToggle = document.getElementById('navbarDropdownCopas');
+        const rankingToggle = document.getElementById('navbarDropdownRanking');
+        
+        // =================================================================
+        // 1. LIMPEZA DE ESTADO: Remove 'active' do pai quando o dropdown fecha
+        // =================================================================
+        function cleanActiveState(event) {
+            // Remove a classe 'active' do item pai (nav-item)
+            event.target.closest('.nav-item').classList.remove('active');
+        }
+
+        if (copasNavItem && rankingNavItem) {
+            // Remove a classe 'active' de Copas do Mundo quando ele é escondido
+            copasNavItem.addEventListener('hide.bs.dropdown', cleanActiveState);
+            
+            // Remove a classe 'active' de Ranking Histórico quando ele é escondido
+            rankingNavItem.addEventListener('hide.bs.dropdown', cleanActiveState);
+        }
+
+        // =================================================================
+        // 2. FORÇAR FECHAMENTO E ATIVAÇÃO (Corrige a falha Copas -> Ranking)
+        // =================================================================
+        if (rankingToggle && copasToggle) {
+            
+            // Evento para quando o Ranking Histórico está prestes a ABRIR
+            rankingToggle.addEventListener('show.bs.dropdown', function () {
+                // Força o fechamento de Copas do Mundo
+                const bsDropdownCopas = bootstrap.Dropdown.getInstance(copasToggle) || new bootstrap.Dropdown(copasToggle);
+                bsDropdownCopas.hide();
+                
+                // Opcional: Garante que o item pai de Copas perca o 'active' imediatamente
+                copasNavItem.classList.remove('active');
+            });
+            
+            // Evento para quando o Copas do Mundo está prestes a ABRIR
+            copasToggle.addEventListener('show.bs.dropdown', function () {
+                 // Força o fechamento de Ranking Histórico
+                const bsDropdownRanking = bootstrap.Dropdown.getInstance(rankingToggle) || new bootstrap.Dropdown(rankingToggle);
+                bsDropdownRanking.hide();
+                
+                // Opcional: Garante que o item pai de Ranking perca o 'active' imediatamente
+                rankingNavItem.classList.remove('active');
+            });
+        }
+        
+        // =================================================================
+        // 3. REMOVER ACTIVE QUANDO UM LINK FILHO É CLICADO
+        // (Garante que o pai não fique ativo se o link filho não levar à mesma página)
+        // =================================================================
+        const allDropdownItems = document.querySelectorAll('.dropdown-menu a.dropdown-item');
+        allDropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Encontra o nav-item pai mais próximo
+                const parentNavItem = e.target.closest('.nav-item');
+                if (parentNavItem) {
+                    // Remove o active imediatamente antes de navegar
+                    parentNavItem.classList.remove('active');
+                }
+            });
+        });
+    });
+</script>

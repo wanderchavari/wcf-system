@@ -54,6 +54,48 @@ class WorldCupService
     }
 
     /**
+     * Retorna a contagem de participações e de títulos apenas para os países que já foram campeões,
+     * em formato de lista (Selecao, Participacoes, Titulos) ideal para gráficos.
+     *
+     * @return array
+     */
+    public function getParticipacoes(): array
+    {
+        $sql = "
+            SELECT 
+                COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS Selecao,
+                COUNT(wp.fk_ano_torneio) AS Participacoes
+            FROM wcf_participacao wp
+            INNER JOIN wcf_selecao wsh ON wsh.id_selecao = wp.fk_selecao
+            LEFT JOIN wcf_selecao wsa ON wsa.id_selecao = wsh.fk_selecao_atual
+            WHERE wp.fk_selecao IN (
+                SELECT DISTINCT p.fk_selecao
+                FROM wcf_participacao p
+                WHERE p.classificacao_final = 1
+            )
+            GROUP BY Selecao
+            ORDER BY Participacoes DESC;
+        ";
+
+        try {
+            // A consulta já retorna os dados prontos no formato que precisamos
+            $dadosDoBanco = Database::query($sql);
+            
+            // Mapeia para garantir que Participacoes e Titulos sejam tratados como números inteiros
+            $dadosFormatados = array_map(function($linha) {
+                $linha['Participacoes'] = (int) $linha['Participacoes'];
+                return $linha;
+            }, $dadosDoBanco);
+
+            return $dadosFormatados;
+
+        } catch (\Exception $e) {
+            error_log("Erro no WorldCupService ao buscar participações para gráfico: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Busca a lista de anos de todas as Copas cadastradas.
      * @return array Array de anos (ex: [1930, 1934, 1938, ...])
      */
@@ -156,6 +198,7 @@ class WorldCupService
                 p.derrotas,
                 p.gols_feitos,
                 p.gols_sofridos,
+                (p.gols_feitos - p.gols_sofridos) AS saldo_gols,
                 (p.vitorias * wt.ponto_por_vitoria + p.empates * 1) AS pontos_torneio
             FROM wcf_participacao p
             JOIN wcf_selecao wsh ON p.fk_selecao = wsh.id_selecao -- Seleção Histórica

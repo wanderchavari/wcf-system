@@ -17,9 +17,11 @@ class HomeController extends BaseController
         // 1. LÓGICA DE DADOS (Business Logic)
         try {
             $campeoesPorTitulo = $this->worldCupService->getCampeoesPorTitulo();
+            $participacoesData = $this->worldCupService->getParticipacoes();
         } catch (\Exception $e) {
             // O serviço já logou o erro, apenas garante um array vazio
             $campeoesPorTitulo = []; 
+            $participacoesData = [];
         }
 
         // 2. DADOS PARA A VIEW (ViewModel)
@@ -29,6 +31,7 @@ class HomeController extends BaseController
             'pageTitle' => 'Histórico de Campeões da Copa do Mundo',
             'pageSubtitle' => 'Análise das seleções mais vitoriosas e suas conquistas.',
             'pageDetail' => null,
+            'participacoesData' => $participacoesData,
         ];
 
         // 3. CHAMA O MÉTODO DE RENDERIZAÇÃO

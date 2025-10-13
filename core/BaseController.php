@@ -3,15 +3,18 @@
 namespace Core;
 
 use Backend\Service\WorldCupService;
+use Backend\Service\AnaliseService;
 
 abstract class BaseController
 {
     protected WorldCupService $worldCupService;
+    protected AnaliseService $analiseService;
 
     public function __construct()
     {
         // Instancia serviços comuns aqui, como o WorldCupService
         $this->worldCupService = new WorldCupService();
+        $this->analiseService = new AnaliseService();
     }
 
     /**
