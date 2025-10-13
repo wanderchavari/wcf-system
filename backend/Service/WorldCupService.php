@@ -127,7 +127,7 @@ class WorldCupService
             LEFT JOIN wcf_participacao wp ON wt.ano_torneio = wp.fk_ano_torneio AND wp.classificacao_final = 1
             LEFT JOIN wcf_selecao wsh ON wsh.id_selecao = wp.fk_selecao
             LEFT JOIN wcf_selecao wsa ON wsa.id_selecao = wsh.fk_selecao_atual
-            ORDER BY wt.ano_torneio DESC;
+            ORDER BY wt.ano_torneio;
         ";
 
         try {
