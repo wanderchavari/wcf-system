@@ -40,6 +40,15 @@
 
             <hr class="my-4 border-secondary">
 
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <a href="/analise/<?= $ano ?>" class="btn btn-outline-light">
+                        <i class="fas fa-chart-bar me-2"></i> Ver Análise Estatística da Edição
+                    </a>
+                </div>
+            </div>
+
+            <hr class="my-4 border-secondary">
 
             <div class="my-5">
                 <h3 class="text-center text-light fw-bold mb-4">
@@ -62,6 +71,7 @@
                                     <th scope="col" class="text-center">D</th>
                                     <th scope="col" class="text-center">GP</th>
                                     <th scope="col" class="text-center">GC</th>
+                                    <th scope="col" class="text-center">SG</th>
                                 </tr>
                             </thead>
                             
@@ -90,6 +100,7 @@
                                     <td class="text-center"><?= $posicao['derrotas'] ?></td>
                                     <td class="text-center"><?= $posicao['gols_feitos'] ?></td>
                                     <td class="text-center"><?= $posicao['gols_sofridos'] ?></td>
+                                    <td class="text-center"><?= $posicao['saldo_gols'] ?></td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
