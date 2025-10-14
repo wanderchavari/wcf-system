@@ -34,7 +34,7 @@
     $url_params = $_GET;
     unset($url_params['page']);
     $base_url_query = http_build_query($url_params); 
-    $base_url = '/analise?' . $base_url_query . (empty($base_url_query) ? '' : '&'); 
+    $base_url = '/ranking?' . $base_url_query . (empty($base_url_query) ? '' : '&'); 
     
     
     // =================================================================
@@ -85,26 +85,26 @@
                     // Lógica para destaque de cores do top 3 (se for ranking específico)
                     $classDestaque = '';
                     if (!$isGeneralRanking && $year !== null) { // Apenas se for ranking por ano!
-                        if (($item['classificacao_final'] ?? 0) == 1) $classDestaque = 'ranking-ouro';
-                        elseif (($item['classificacao_final'] ?? 0) == 2) $classDestaque = 'ranking-prata';
-                        elseif (($item['classificacao_final'] ?? 0) == 3) $classDestaque = 'ranking-bronze';
+                        if (($item['posicao'] ?? 0) == 1) $classDestaque = 'ranking-ouro';
+                        elseif (($item['posicao'] ?? 0) == 2) $classDestaque = 'ranking-prata';
+                        elseif (($item['posicao'] ?? 0) == 3) $classDestaque = 'ranking-bronze';
                     }
                 ?>
                 <tr class="<?= $classDestaque ?>">
                     <?php if ($isGeneralRanking || $listMode !== null): // Ranking Geral ou Listagem (Consolidado Filtrado) ?>
-                        <td><?= $item['Selecao_Consolidada'] ?? 'N/A' ?></td>
-                        <td class="text-center fw-bold"><?= $item['Total_Pontos'] ?? '0' ?></td>
-                        <td class="text-center"><?= $item['Total_Jogos'] ?? '0' ?></td>
-                        <td class="text-center"><?= $item['Total_Vitorias'] ?? '0' ?></td>
-                        <td class="text-center"><?= $item['Total_Empates'] ?? '0' ?></td>
-                        <td class="text-center"><?= $item['Total_Derrotas'] ?? '0' ?></td>
-                        <td class="text-center"><?= $item['Total_Gols_Feitos'] ?? '0' ?></td>
-                        <td class="text-center"><?= $item['Total_Gols_Sofridos'] ?? '0' ?></td>
+                        <td><?= $item['selecao'] ?? 'N/A' ?></td>
+                        <td class="text-center fw-bold"><?= $item['pontos'] ?? '0' ?></td>
+                        <td class="text-center"><?= $item['jogos'] ?? '0' ?></td>
+                        <td class="text-center"><?= $item['vitorias'] ?? '0' ?></td>
+                        <td class="text-center"><?= $item['empates'] ?? '0' ?></td>
+                        <td class="text-center"><?= $item['derrotas'] ?? '0' ?></td>
+                        <td class="text-center"><?= $item['gols_feitos'] ?? '0' ?></td>
+                        <td class="text-center"><?= $item['gols_sofridos'] ?? '0' ?></td>
                         <td class="text-center fw-bold"><?= $item['saldo_gols'] ?? '0' ?></td>
                     <?php else: // Classificação Detalhada por Ano - (Este bloco técnico não será mais renderizado) ?>
-                        <td class="fw-bold"><?= $item['classificacao_final'] ?? 'N/A' ?>º</td>
-                        <td><?= $item['nome_selecao'] ?? 'N/A' ?> (<?= $item['sigla_iso'] ?? '---' ?>)</td>
-                        <td class="text-center fw-bold"><?= $item['pontos_torneio'] ?? '0' ?></td>
+                        <td class="fw-bold"><?= $item['posicao'] ?? 'N/A' ?>º</td>
+                        <td><?= $item['selecao'] ?? 'N/A' ?> (<?= $item['sigla_iso'] ?? '---' ?>)</td>
+                        <td class="text-center fw-bold"><?= $item['pontos'] ?? '0' ?></td>
                         <td class="text-center"><?= $item['vitorias'] ?? '0' ?></td>
                         <td class="text-center"><?= $item['empates'] ?? '0' ?></td>
                         <td class="text-center"><?= $item['derrotas'] ?? '0' ?></td>
@@ -190,6 +190,12 @@
         <p class="text-muted text-center">Nenhum dado de ranking encontrado para esta análise.</p>
     <?php endif; ?>
 
+    <hr class="my-5 border-secondary">
+
+    <a href="/" class="btn btn-outline-light mt-4">
+        <i class="bi bi-arrow-left"></i> Voltar à Home
+    </a>
+
 </div>
 
 <script>
@@ -203,16 +209,16 @@
         const dataForCharts = dataSet; 
 
         // Determina chaves dinâmicas
-        const labelsKey = isGeneral ? 'Selecao_Consolidada' : 'nome_selecao';
+        const labelsKey = 'selecao';
         
         // Chaves do Gráfico 1 (Gols)
-        const golsFeitosKey = isGeneral ? 'Total_Gols_Feitos' : 'gols_feitos';
-        const golsSofridosKey = isGeneral ? 'Total_Gols_Sofridos' : 'gols_sofridos';
+        const golsFeitosKey = 'gols_feitos';
+        const golsSofridosKey = 'gols_sofridos';
         
         // Chaves do Gráfico 2 (V/E/D)
-        const vitoriasKey = isGeneral ? 'Total_Vitorias' : 'vitorias';
-        const empatesKey = isGeneral ? 'Total_Empates' : 'empates';
-        const derrotasKey = isGeneral ? 'Total_Derrotas' : 'derrotas';
+        const vitoriasKey = 'vitorias';
+        const empatesKey = 'empates';
+        const derrotasKey = 'derrotas';
         
         // 💡 CORREÇÃO JS: A chave 'saldo_gols' é a mesma para todos os modos (minúsculas)
         const saldoGolsKey = 'saldo_gols'; 
@@ -242,7 +248,7 @@
 
             // Gráfico de Saldo de Gols
             // 💡 USANDO A CHAVE CONSISTENTE: Não é mais necessário o cálculo condicional,
-            // pois o Service já retorna 'saldo_gols' em ambos os modos (AnaliseService.php)
+            // pois o Service já retorna 'saldo_gols' em ambos os modos (RankingService.php)
             const saldo = parseInt(item[saldoGolsKey] || 0); 
             saldoGols.push(saldo);
             

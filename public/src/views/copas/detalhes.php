@@ -42,7 +42,7 @@
 
             <div class="row mb-4">
                 <div class="col-12 text-center">
-                    <a href="/analise/<?= $ano ?>" class="btn btn-outline-light">
+                    <a href="/ranking/<?= $ano ?>" class="btn btn-outline-light">
                         <i class="fas fa-chart-bar me-2"></i> Ver Análise Estatística da Edição
                     </a>
                 </div>

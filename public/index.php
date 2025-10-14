@@ -41,8 +41,9 @@ $router->add('/', 'HomeController@index');
 $router->add('/copas', 'CopasController@index'); 
 $router->add('/copas/{ano}', 'CopasController@detalhes'); 
 $router->add('/admin', 'AdminController@dashboard');
-$router->add('/analise', 'AnaliseController@ranking');
-$router->add('/analise/{year}', 'AnaliseController@ranking');
+$router->add('/ranking', 'RankingController@ranking');
+$router->add('/ranking/{year}', 'RankingController@ranking');
+$router->add('/estatisticas', 'AnaliseController@estatisticas');
 
 // Despacha a requisição (faz o Controller/Método rodar)
 $router->dispatch();
