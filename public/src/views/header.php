@@ -69,7 +69,7 @@
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownRanking">
                         
                         <li><h6 class="dropdown-header">Visão Consolidada</h6></li>
-                        <li><a class="dropdown-item" href="/analise">
+                        <li><a class="dropdown-item" href="/ranking">
                             Geral
                         </a></li>
                         
@@ -77,17 +77,21 @@
                         
                         <li><h6 class="dropdown-header">Por Período</h6></li>
                         
-                        <li><a class="dropdown-item" href="/analise?listagem=old">
+                        <li><a class="dropdown-item" href="/ranking?listagem=old">
                             Antigo (até 1990)
                         </a></li>
                         
-                        <li><a class="dropdown-item" href="/analise?listagem=modern">
+                        <li><a class="dropdown-item" href="/ranking?listagem=modern">
                             Moderno (desde 1994)
                         </a></li>
                     </ul>
                 </li>
 
-                <li class='nav-item'><a class='nav-link' href='/admin'>Backend / Admin</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/estatisticas">Estatísticas</a>
+                </li>
+
+                <!-- <li class='nav-item'><a class='nav-link' href='/admin'>Backend / Admin</a></li> -->
             </ul>
         </div>
     </div>

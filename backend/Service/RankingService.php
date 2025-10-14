@@ -1,11 +1,11 @@
 <?php
-// backend/Service/AnaliseService.php
+// backend/Service/RankingService.php
 
 namespace Backend\Service;
 
 use Core\Database;
 
-class AnaliseService
+class RankingService
 {
     /**
      * Retorna o ranking de uma copa específica ($year) ou o ranking histórico geral (null).
@@ -22,16 +22,17 @@ class AnaliseService
         if ($year !== null) {
             $sql = "
                 SELECT 
-                    COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS nome_selecao,
-                    COALESCE(wsa.sigla_iso, wsh.sigla_iso) AS sigla_iso,
-                    p.classificacao_final,
+                    COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS selecao,
+                    COALESCE(wsa.sigla_iso, wsh.sigla_iso) AS sigla,
+                    p.classificacao_final AS posicao,
+                    (p.vitorias + p.empates + p.derrotas) AS jogos,
+                    (p.vitorias * wt.ponto_por_vitoria + p.empates) AS pontos,
                     p.vitorias,
                     p.empates,
                     p.derrotas,
                     p.gols_feitos,
                     p.gols_sofridos,
-                    (p.gols_feitos - p.gols_sofridos) AS saldo_gols,
-                    (p.vitorias * wt.ponto_por_vitoria + p.empates * 1) AS pontos_torneio
+                    (p.gols_feitos - p.gols_sofridos) AS saldo_gols
                 FROM wcf_participacao p
                 JOIN wcf_selecao wsh ON p.fk_selecao = wsh.id_selecao
                 LEFT JOIN wcf_selecao wsa ON wsh.fk_selecao_atual = wsa.id_selecao
@@ -47,14 +48,15 @@ class AnaliseService
         } else {
             $sql = "
                 SELECT
-                    COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS Selecao_Consolidada,
-                    SUM((wp.vitorias * wt.ponto_por_vitoria) + wp.empates) AS Total_Pontos,
-                    SUM(wp.vitorias + wp.empates + wp.derrotas) AS Total_Jogos,
-                    SUM(wp.vitorias) AS Total_Vitorias,
-                    SUM(wp.empates) AS Total_Empates,
-                    SUM(wp.derrotas) AS Total_Derrotas,
-                    SUM(wp.gols_feitos) AS Total_Gols_Feitos,
-                    SUM(wp.gols_sofridos) AS Total_Gols_Sofridos,
+                    COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS selecao,
+                    COALESCE(wsa.sigla_iso, wsh.sigla_iso) AS sigla,
+                    SUM(wp.vitorias + wp.empates + wp.derrotas) AS jogos,
+                    SUM((wp.vitorias * wt.ponto_por_vitoria) + wp.empates) AS pontos,
+                    SUM(wp.vitorias) AS vitorias,
+                    SUM(wp.empates) AS empates,
+                    SUM(wp.derrotas) AS derrotas,
+                    SUM(wp.gols_feitos) AS gols_feitos,
+                    SUM(wp.gols_sofridos) AS gols_sofridos,
                     SUM(wp.gols_feitos - wp.gols_sofridos) AS saldo_gols
                 FROM wcf_participacao wp
                      INNER JOIN wcf_torneio wt ON wt.ano_torneio = wp.fk_ano_torneio 
@@ -71,10 +73,10 @@ class AnaliseService
                     ";
             }
             $sql .= "
-                GROUP BY Selecao_Consolidada
+                GROUP BY selecao, sigla
                 ORDER BY
-                    Total_Pontos DESC,
-                    Total_Vitorias DESC,
+                    pontos DESC,
+                    vitorias DESC,
                     saldo_gols DESC;
                 ";
         }
@@ -85,6 +87,39 @@ class AnaliseService
             return $result ?? [];
         } catch (\Exception $e) {
             error_log("Erro no AnaliseService::getRanking: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Retorna a média histórica da classificação final de cada seleção.
+     * Quanto menor a média, melhor o desempenho.
+     * @return array
+     */
+    public function getMediaClassificacaoFinal(): array
+    {
+        $sql = "
+            SELECT 
+                COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS selecao,
+                COALESCE(wsa.sigla_iso, wsh.sigla_iso) AS sigla,
+                AVG(wp.classificacao_final) AS media_classificacao,
+                COUNT(wp.fk_ano_torneio) AS total_participacoes
+            FROM wcf_participacao wp
+                INNER JOIN wcf_selecao wsh ON wsh.id_selecao = wp.fk_selecao
+                LEFT JOIN wcf_selecao wsa ON wsa.id_selecao = wsh.fk_selecao_atual
+            WHERE wp.classificacao_final IS NOT NULL 
+            GROUP BY 
+                selecao, sigla
+            ORDER BY 
+                media_classificacao ASC, 
+                total_participacoes DESC;
+        ";
+
+        try {
+            // Assume-se que você tem uma classe Database que executa a query
+            return Database::query($sql, []);
+        } catch (\Exception $e) {
+            error_log("Erro ao buscar Média de Classificação Final: " . $e->getMessage());
             return [];
         }
     }

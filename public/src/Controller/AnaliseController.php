@@ -1,66 +1,89 @@
 <?php
-// public/src/Controller/AnaliseController.php
 
 namespace App\Controller;
 
+use Backend\Service\RankingService;
 use Core\BaseController;
 
-class AnaliseController extends BaseController 
+class AnaliseController extends BaseController
 {
 
-    public function ranking(?int $year = null)
+    /**
+     * Exibe a página de Estatísticas Detalhadas com os gráficos.
+     */
+    public function estatisticas(?int $year = null)
     {
+        $ranking = []; 
+        $pointsData = []; 
+        $performanceData = []; 
+        $golsFeitosSofridosData = []; 
+        $saldoGolsData = []; 
+        $golsMediaData = []; 
+        try {
 
-        // 1. Verifica os modos de acesso (Query String)
-        $listMode = $_GET['listagem'] ?? null;
-        $rankingData = [];
-        $viewFile = 'analise/ranking';
-        
-        // 2. Lógica de Busca e Títulos
-        if ($listMode !== null) {
-            if ($listMode != 'old' && $listMode != 'modern' && $listMode != 'all') {
-                $listMode = 'all'; // Valor padrão se inválido
+            // 1. Carrega os dados para montar os gráficos
+            $ranking = $this->getRankingParamsAndData($year);
+            $dados = $ranking['rankingData'];
+
+            foreach ($dados as $item) {
+                $pointsData[] = [
+                    'selecao' => $item['selecao'],
+                    'sigla' => $item['sigla'],
+                    'pontos' => $item['pontos'],
+                ];
+                $performanceData[] = [
+                    'selecao' => $item['selecao'],
+                    'sigla' => $item['sigla'],
+                    'jogos' => $item['jogos'],
+                    'vitorias' => $item['vitorias'],
+                    'empates' => $item['empates'],
+                    'derrotas' => $item['derrotas'],
+                ];
+                $golsFeitosSofridosData[] = [
+                    'selecao' => $item['selecao'],
+                    'sigla' => $item['sigla'],
+                    'gols_feitos' => $item['gols_feitos'],
+                    'gols_sofridos' => $item['gols_sofridos'],
+                ];
+                $saldoGolsData[] = [
+                    'selecao' => $item['selecao'],
+                    'sigla' => $item['sigla'],
+                    'saldo_gols' => $item['saldo_gols'],
+                ];
+                $golsMediaData[] = [
+                    'selecao' => $item['selecao'],
+                    'sigla' => $item['sigla'],
+                    'Gols_Feitos_Media' => $item['jogos'] > 0 ? $item['gols_feitos'] / $item['jogos'] : 0,
+                ];
             }
-            if ($listMode === 'all') {
-                $pageTitle = 'Ranking Histórico Geral (Todas as Copas)';
-                $pageSubtitle = "Análise consolidada de todas as edições da Copa do Mundo";
-            } elseif ($listMode === 'old') {
-                $pageTitle = "Análise Estatística das Copas antes de 1994";
-                $pageSubtitle = "Copas entre 1930 e 1990 (2 pontos por vitória)";
-            } elseif ($listMode === 'modern') {
-                $pageTitle = "Análise Estatística das Copas a partir de 1994";
-                $pageSubtitle = "Copas entre 1994 e 2022 (3 pontos por vitória)";
-            }
-            // Se for listagem (ex: ?listagem=all)
-            $rankingData = $this->analiseService->getRanking(null,$listMode);
-            // Podemos usar uma view separada ou adaptar ranking.php para listagem
-            // Para simplicidade, vamos para a próxima funcionalidade primeiro.
-        } elseif ($year !== null) {
-            // Se for Ranking Específico por Ano (/analise/{year})
-            $pageTitle = "Detalhamento da Copa de {$year}";
-            $pageSubtitle = "Estatísticas detalhadas da edição.";
-            $rankingData = $this->analiseService->getRanking($year);
-        } else {
-            // Padrão: Ranking Histórico Geral (/analise)
-            $pageTitle = "Ranking Histórico Geral";
-            $pageSubtitle = "Análise consolidada de todas as edições da Copa do Mundo.";
-            $rankingData = $this->analiseService->getRanking(null);
+            //$this->dd($pointsData); 
+            
+        } catch (\Exception $e) {
+            error_log("Erro no AnaliseController ao buscar estatísticas: " . $e->getMessage()); 
+            $pointsData = []; 
+            $performanceData = [];
+            $golsFeitosSofridosData = [];
+            $saldoGolsData = [];
+            $golsMediaData = [];
         }
 
-        // //teste
-        // header('Content-Type: application/json');
-        // http_response_code(200);
-        // echo json_encode($rankingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        
-        // 3. Renderiza a view
-        $this->render($viewFile, [
-            'pageTitle' => $pageTitle,
-            'pageSubtitle' => $pageSubtitle,
-            'rankingData' => $rankingData,
-            'year' => $year,
-            'listMode' => $listMode,
-            'isGeneralRanking' => ($year === null && $listMode === null)
-        ]);
-    }
+        $mediaClassificacaoData = $this->rankingService->getMediaClassificacaoFinal();
 
+        $viewData = [
+            'pageTitle' => 'Estatísticas Detalhadas da Copa do Mundo',
+            'pageSubtitle' => 'Comparação entre as seleções em diferentes métricas.',
+            'pageDetail' => null,
+            
+            // Passa todos os datasets para a View
+            'pointsData' => $pointsData,
+            'performanceData' => $performanceData,
+            'golsFeitosSofridosData' => $golsFeitosSofridosData,
+            'saldoGolsData' => $saldoGolsData,
+            'golsMediaData' => $golsMediaData,
+            'mediaClassificacaoData' => $mediaClassificacaoData,
+        ];
+
+        // RENDERIZA A NOVA VIEW
+        $this->render('analise/estatisticas', $viewData);
+    }
 }
