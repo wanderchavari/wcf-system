@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Backend\Service\RankingService;
 use Core\BaseController;
+use Core\Helper;
 
 class AnaliseController extends BaseController
 {
@@ -27,36 +28,36 @@ class AnaliseController extends BaseController
 
             foreach ($dados as $item) {
                 $pointsData[] = [
-                    'selecao' => $item['selecao'],
-                    'sigla' => $item['sigla'],
+                    'selecao' => Helper::h($item['selecao']),
+                    'sigla' => Helper::h($item['sigla']),
                     'pontos' => $item['pontos'],
                 ];
                 $performanceData[] = [
-                    'selecao' => $item['selecao'],
-                    'sigla' => $item['sigla'],
+                    'selecao' => Helper::h($item['selecao']),
+                    'sigla' => Helper::h($item['sigla']),
                     'jogos' => $item['jogos'],
                     'vitorias' => $item['vitorias'],
                     'empates' => $item['empates'],
                     'derrotas' => $item['derrotas'],
                 ];
                 $golsFeitosSofridosData[] = [
-                    'selecao' => $item['selecao'],
-                    'sigla' => $item['sigla'],
+                    'selecao' => Helper::h($item['selecao']),
+                    'sigla' => Helper::h($item['sigla']),
                     'gols_feitos' => $item['gols_feitos'],
                     'gols_sofridos' => $item['gols_sofridos'],
                 ];
                 $saldoGolsData[] = [
-                    'selecao' => $item['selecao'],
-                    'sigla' => $item['sigla'],
+                    'selecao' => Helper::h($item['selecao']),
+                    'sigla' => Helper::h($item['sigla']),
                     'saldo_gols' => $item['saldo_gols'],
                 ];
                 $golsMediaData[] = [
-                    'selecao' => $item['selecao'],
-                    'sigla' => $item['sigla'],
+                    'selecao' => Helper::h($item['selecao']),
+                    'sigla' => Helper::h($item['sigla']),
                     'Gols_Feitos_Media' => $item['jogos'] > 0 ? $item['gols_feitos'] / $item['jogos'] : 0,
                 ];
             }
-            //$this->dd($pointsData); 
+            //$this->dd($golsMediaData); 
             
         } catch (\Exception $e) {
             error_log("Erro no AnaliseController ao buscar estatísticas: " . $e->getMessage()); 

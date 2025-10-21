@@ -55,7 +55,7 @@ class WorldCupService
 
     /**
      * Retorna a contagem de participações e de títulos apenas para os países que já foram campeões,
-     * em formato de lista (Selecao, Participacoes, Titulos) ideal para gráficos.
+     * em formato de lista (Selecao, Participacoes) ideal para gráficos.
      *
      * @return array
      */
