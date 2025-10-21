@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use Core\BaseController;
+use Core\Helper;
 
 class CopasController extends BaseController 
 {
@@ -13,15 +14,30 @@ class CopasController extends BaseController
     {
         // 1. Busca a lista de torneios
         $torneios = $this->worldCupService->getAllTorneios();
+
+        $campeonatos = [];
+        if (!empty($torneios)) {
+            $item = [];
+            foreach ($torneios as $copa) {
+                $item['ano_torneio'] = $copa['ano_torneio'];
+                $item['sede'] = Helper::h($copa['sede']);
+                $item['campeao'] = Helper::h($copa['campeao']);
+                if (!empty($item)) {
+                    $campeonatos[] = $item;
+                    $item = []; // Reseta o item para a próxima iteração
+                }
+            }
+        }
+        //$this->dd($campeonatos);
         
         $viewData = [
             'titulo' => 'Listagem de Copas',
             'pageTitle' => '⚽️ Todas as Edições da Copa do Mundo', 
             'pageSubtitle' => 'Navegue por todas as sedes e campeões desde 1930.',
-            'pageDetail' => 'Total de edições: ' . count($torneios), // Exemplo de uso do pageDetail
+            'pageDetail' => 'Total de edições: ' . count($torneios),
             
             // Dados para a View (a lista que será iterada)
-            'torneios' => $torneios, 
+            'torneios' => $campeonatos, 
         ];
         
         // Assumimos que a view se chamará copas/index.php

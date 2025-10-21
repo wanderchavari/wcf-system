@@ -314,8 +314,9 @@ $mediaClassificacaoDataJson = json_encode($mediaClassificacaoData ?? [], JSON_UN
         
         // --- Gráfico 5: Média de Gols Feitos (NOVO) ---
         if (golsMediaData.length > 0) {
+            console.log(golsMediaData);
             const labels = golsMediaData.map(item => item.selecao);
-            const media = golsMediaData.map(item => parseFloat(item.Gols_Feitos_Media).toFixed(2)); 
+            const media = golsMediaData.map(item => parseFloat(item.Gols_Feitos_Media)); 
             
             const alturaCalculada = Math.max(golsMediaData.length * alturaPorItem + 100, alturaMinima);
             const container = document.getElementById('golsMediaChartContainer');
@@ -355,7 +356,8 @@ $mediaClassificacaoDataJson = json_encode($mediaClassificacaoData ?? [], JSON_UN
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return context.label + ': ' + parseFloat(context.parsed.y).toFixed(2);
+                                valorBruto = context.raw;
+                                return context.label + ': ' + parseFloat(context.raw).toFixed(2);
                             }
                         }
                     }
