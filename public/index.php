@@ -11,6 +11,7 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 // Carrega o Autoloader do Composer
+// Aqui, para subir em produção, precisa ser o caminho correto: '/vendor/autoload.php' -->> APENAS NO SERVIDOR - 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require __DIR__ . '/../vendor/autoload.php';
 } else {
@@ -24,6 +25,11 @@ try {
     $dotenv->safeLoad();
 } catch (\Exception $e) {
     error_log("Erro ao carregar .env: " . $e->getMessage());
+}
+
+if (!isset($_ENV['APP_ENV']) || empty($_ENV['APP_ENV'])) {
+    putenv('APP_ENV=prod'); 
+    $_ENV['APP_ENV'] = 'prod'; // Garante que o $_ENV também seja setado para o Helper
 }
 
 // -----------------------------------------------------------

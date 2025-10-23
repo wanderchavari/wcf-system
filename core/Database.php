@@ -4,6 +4,7 @@ namespace Core;
 
 use PDO;
 use PDOException;
+use Core\Helper;
 
 class Database
 {
@@ -17,13 +18,21 @@ class Database
     {
         if (self::$pdoInstance === null) {
 
-            $dbHost = 'mysql_db';
-            $dbPort = $_ENV['DB_PORT'] ?? '3306';
-            $dbName = $_ENV['DB_NAME'] ?? 'test';
-            $dbUser = $_ENV['DB_USER'] ?? 'root';
-            $dbPass = $_ENV['DB_PASS'] ?? '';
+            if (Helper::isDevEnvironment()) {
+                $dbHost = 'mysql_db';
+                $dbPort = $_ENV['DB_PORT'] ?? '3306';
+                $dbName = $_ENV['DB_NAME'] ?? 'test';
+                $dbUser = $_ENV['DB_USER'] ?? 'root';
+                $dbPass = $_ENV['DB_PASS'] ?? '';
+            } else {
+                $dbHost = 'sql100.infinityfree.com';
+                $dbPort = $_ENV['DB_PORT'] ?? '3306';
+                $dbName = 'if0_40222953_worldcup_data';
+                $dbUser = 'if0_40222953';
+                $dbPass = 'OLX8kY9lumjZ';
+            }
             $dbCharset = $_ENV['DB_CHARSET'] ?? 'utf8mb4';
-
+            
             $dsn = sprintf(
                 'mysql:host=%s;port=%s;dbname=%s;charset=%s',
                 $dbHost,
