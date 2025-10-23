@@ -1,0 +1,14 @@
+# Arquivo: .htaccess
+
+# Ativa o módulo de reescrita (mod_rewrite)
+RewriteEngine On
+
+# Define a base para o domínio (pode ser / se for a raiz do domínio)
+RewriteBase /
+
+# Se o item solicitado NÃO for um arquivo existente
+RewriteCond %{REQUEST_FILENAME} !-f
+# E se o item solicitado NÃO for um diretório existente
+RewriteCond %{REQUEST_FILENAME} !-d
+# Redireciona a requisição internamente para o index.php (L=Last, QSA=Query String Append)
+RewriteRule ^(.*)$ index.php [L,QSA]
