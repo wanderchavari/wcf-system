@@ -77,6 +77,27 @@ CREATE TABLE IF NOT EXISTS wcf_participacao (
     FOREIGN KEY (fk_selecao) REFERENCES wcf_selecao(id_selecao)
 );
 
+-- Tebela wcf_jogo
+CREATE TABLE wcf_jogo (
+    id_jogo INT AUTO_INCREMENT PRIMARY KEY,
+    fk_ano_torneio INT NOT NULL,
+    data_jogo DATETIME NOT NULL,
+    fase VARCHAR(50) NOT NULL,
+    grupo VARCHAR(10) NULL,
+    estadio VARCHAR(150) NULL,
+    cidade VARCHAR(100) NULL,
+    pais_sede VARCHAR(100) NULL,
+    fk_selecao_casa INT NOT NULL,
+    fk_selecao_fora INT NOT NULL,
+    gols_casa INT DEFAULT 0,
+    gols_fora INT DEFAULT 0,
+    vitoria_penaltis BOOLEAN DEFAULT FALSE,
+    observacao TEXT NULL,
+    
+    FOREIGN KEY (fk_ano_torneio) REFERENCES wcf_torneio(ano_torneio),
+    FOREIGN KEY (fk_selecao_casa) REFERENCES wcf_selecao(id_selecao),
+    FOREIGN KEY (fk_selecao_fora) REFERENCES wcf_selecao(id_selecao)
+);
 
 -- #################################################################
 -- # PASSO 3: Inserção de Dados Iniciais (Seed)
