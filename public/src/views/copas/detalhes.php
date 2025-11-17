@@ -58,7 +58,6 @@
                 <?php if (!empty($ranking)): ?>
                     <div class="table-responsive">
                     <div class="table-responsive">
-                        <!-- <table class="table table-dark table-hover table-striped text-light border-secondary"> -->
                         <table class="table table-dark text-light border-secondary">
                         
                             <thead>
@@ -112,6 +111,57 @@
 
             </div>
 
+            <hr class="my-5 border-secondary">
+
+            <div class="my-5">
+                <h3 class="text-center text-light fw-bold mb-4">
+                    Jogos do Torneio
+                </h3>
+
+                <?php if (!empty($jogos)): ?>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped text-light border-secondary">
+                        
+                            <thead>
+                                <tr>
+                                    <th scope="col">Data/Hora</th>
+                                    <th scope="col">Fase/Grupo</th>
+                                    <th scope="col">Estádio / Cidade</th>
+                                    <th scope="col" class="text-center">Jogos</th>
+                                    <th scope="col" class="d-none d-lg-table-cell">Observação</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <?php foreach ($jogos as $jogo): 
+                                    // Formata a data (assumindo que data_jogo é DATETIME)
+                                    $dataHora = date('d/m/Y H:i', strtotime($jogo['data_jogo']));
+                                    
+                                    // Concatena Fase e Grupo (se houver grupo)
+                                    $faseGrupo = $jogo['fase'] . ($jogo['grupo'] ? " ({$jogo['grupo']})" : '');
+                                    $resultado = $jogo['selecao_casa'] . ' ' . $jogo['gols_casa'] . ' x ' . $jogo['gols_fora'] . ' ' . $jogo['selecao_fora'];
+                                    
+                                    // Indicador de Pênaltis
+                                    $penaltis = $jogo['vitoria_penaltis'] ? ' (Pênaltis)' : '';
+                                ?>
+
+                                <tr>
+                                    <td style="white-space: nowrap;"><?= $dataHora ?></td>
+                                    <td><?= $faseGrupo ?></td>
+                                    <td><?= $jogo['estadio'] ?> / <?= $jogo['cidade'] ?></td>
+                                    <td class="text-center fw-bold">
+                                        <?= $resultado ?>
+                                    </td>
+                                    <td class="d-none d-lg-table-cell small"><?= $jogo['observacao'] ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <p class="text-muted text-center">Nenhum jogo encontrado para este torneio.</p>
+                <?php endif; ?>
+            </div>
             <hr class="my-5 border-secondary">
 
         <?php else: ?>

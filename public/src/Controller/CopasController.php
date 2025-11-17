@@ -51,6 +51,7 @@ class CopasController extends BaseController
         // O método deve retornar o array de resultados (posicao, selecao, etc.)
         $participacoes = $this->worldCupService->getChampionByYear((int)$ano);
         $ranking = $this->worldCupService->getTorneioRankingByYear((int)$ano);
+        $jogos = $this->gameService->getGamesByYear((int)$ano);
         
         // 2. Prepara variáveis de exibição
         $copaData = [
@@ -66,25 +67,25 @@ class CopasController extends BaseController
         if ($isFound) {
         // Processa o array para extrair as posições e sede
         // 💡 O FOREACH AGORA FUNCIONA CORRETAMENTE!
-        foreach ($participacoes as $part) { 
-            // Sua lógica de seleção de nome e atribuição de sede/posições está correta aqui.
-            $selecaoNome = $part['selecao_historica'] ?? $part['selecao_atual'];
-            
-            $copaData['sede'] = $part['sede'] ?? $copaData['sede'];
+            foreach ($participacoes as $part) { 
+                // Sua lógica de seleção de nome e atribuição de sede/posições está correta aqui.
+                $selecaoNome = $part['selecao_historica'] ?? $part['selecao_atual'];
+                
+                $copaData['sede'] = $part['sede'] ?? $copaData['sede'];
 
-            switch ((int)$part['posicao']) {
-                case 1:
-                    $copaData['campeao'] = $selecaoNome;
-                    break;
-                case 2:
-                    $copaData['vice'] = $selecaoNome;
-                    break;
-                case 3:
-                    $copaData['terceiro'] = $selecaoNome;
-                    break;
+                switch ((int)$part['posicao']) {
+                    case 1:
+                        $copaData['campeao'] = $selecaoNome;
+                        break;
+                    case 2:
+                        $copaData['vice'] = $selecaoNome;
+                        break;
+                    case 3:
+                        $copaData['terceiro'] = $selecaoNome;
+                        break;
+                }
             }
         }
-    }
         
         // 3. Prepara os dados para a View
         $pageTitle = $isFound 
@@ -119,6 +120,7 @@ class CopasController extends BaseController
             'pageDetail' => $pageDetail,
             'pageSubtitleClass' => $pageSubtitleClass,
             'ranking' => $ranking,
+            'jogos' => $jogos,
         ];
         
         $this->render('copas/detalhes', $viewData);
