@@ -50,6 +50,7 @@ $router->add('/admin', 'AdminController@dashboard');
 $router->add('/ranking', 'RankingController@ranking');
 $router->add('/ranking/{year}', 'RankingController@ranking');
 $router->add('/estatisticas', 'AnaliseController@estatisticas');
+$router->add('/jogos/{ano}', 'CopasController@jogos');
 
 // Despacha a requisição (faz o Controller/Método rodar)
 $router->dispatch();

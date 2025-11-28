@@ -125,4 +125,54 @@ class CopasController extends BaseController
         
         $this->render('copas/detalhes', $viewData);
     }
+
+    /**
+     * Exibe a lista de jogos de um torneio específico no layout de placar dinâmico.
+     * Mapeado para a rota /jogos/{ano}
+     */
+    public function jogos(string $ano)
+    {
+        // 1. LÓGICA DE DADOS: Busca os dados necessários
+        // Assumindo que $this->worldCupService e $this->gameService estão injetados.
+        $participacoes = $this->worldCupService->getChampionByYear((int)$ano);
+        $jogos = $this->gameService->getGamesByYear((int)$ano);
+        
+        // 2. Prepara variáveis de exibição (dados da copa e status)
+        $copaData = ['sede' => 'A definir'];
+        $isFound = !empty($participacoes);
+        
+        if ($isFound) {
+            foreach ($participacoes as $part) { 
+                $copaData['sede'] = $part['sede'] ?? $copaData['sede'];
+            }
+        }
+        
+        // 3. Prepara os dados para a View
+        $pageTitle = $isFound 
+            ? "Copa do Mundo de {$ano} - Resultados" 
+            : "Edição não encontrada: {$ano}";
+            
+        $pageSubtitle = $isFound
+            ? "País sede: {$copaData['sede']}"
+            : "Desculpe, não conseguimos encontrar dados para esta edição.";
+
+        $viewData = [
+            'titulo' => "Jogos da Copa de {$ano}",
+            'ano' => $ano,
+            'isFound' => $isFound,
+            'jogos' => $jogos, // ARRAY ESSENCIAL PARA A VIEW
+            
+            // Variáveis do Layout (Header)
+            'pageTitle' => $pageTitle, 
+            'pageSubtitle' => $pageSubtitle,
+        ];
+        
+        // 4. Renderiza a View que está em src/views/copas/jogos.php
+        $this->render('copas/jogos', $viewData);
+    }
+
+
+
+
+
 }
