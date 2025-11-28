@@ -117,6 +117,13 @@
                 <h3 class="text-center text-light fw-bold mb-4">
                     Jogos do Torneio
                 </h3>
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <a href="/jogos/<?= $ano ?>" class="btn btn-outline-success">
+                            <i class="fas fa-tv me-2"></i> Jogos da Copa de <?= $ano ?>
+                        </a>
+                    </div>
+                </div>
 
                 <?php if (!empty($jogos)): ?>
                     <div class="table-responsive">
@@ -128,7 +135,6 @@
                                     <th scope="col">Fase/Grupo</th>
                                     <th scope="col">Estádio / Cidade</th>
                                     <th scope="col" class="text-center">Jogos</th>
-                                    <th scope="col" class="d-none d-lg-table-cell">Observação</th>
                                 </tr>
                             </thead>
                             
@@ -152,7 +158,9 @@
                                     <td class="text-center fw-bold">
                                         <?= $resultado ?>
                                     </td>
-                                    <td class="d-none d-lg-table-cell small"><?= $jogo['observacao'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="d-none d-lg-table-cell small">Observações: <?= $jogo['observacao'] ?></td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>

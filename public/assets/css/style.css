@@ -151,3 +151,117 @@ footer.bg-dark {
     color: #000000 !important; /* Texto em cinza bronze */
     font-weight: bold;
 }
+
+/* jogos.php - jogo_detalhe.php */
+.score-card {
+    /* Garante que o card principal se destaque, se desejar */
+    border-radius: 8px;
+    overflow: hidden; /* Importante para conter o shape */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.match-header, .match-footer {
+    /* Estilo para as linhas de informação secundária */
+    background-color: #2c3e50; /* Um azul escuro sutil */
+    padding: 5px 15px;
+}
+
+.text-info {
+    margin: 30px;
+}
+
+.text-group {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.match-main {
+    background-color: #34495e; /* Um fundo escuro principal */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+}
+
+/* AJUSTE NO TAMANHO DO NOME DO TIME */
+.team-info {
+    flex-grow: 0; /* Impede o crescimento excessivo dos times */
+    max-width: 45%; /* Limite para que o texto não invada o centro */
+    padding: 0; /* Remove o padding padrão do Bootstrap (p-3) */
+}
+
+.team-name {
+    font-size: 1.5rem; /* Aumentado, use 1.5rem ou 1.75rem se quiser mais destaque */
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Bolinhas/Ícones (simulação da bolinha de cristal da imagem) */
+.team-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 10px 10px, #ffffff, #888888);
+    border: 1px solid #555;
+    vertical-align: middle;
+    margin: 0 10px;
+    /* Se for usar a imagem da bandeira, ajuste o background */
+}
+
+/* Alinhamento dos Times */
+.team-home { padding-right: 90px; }
+.team-icon { order: -1; margin-right: 10px; } /* Ícone à esquerda do nome do time da casa */
+
+.team-away { padding-left: 90px; }
+.team-icon { margin-left: 10px; } /* Ícone à direita do nome do time de fora */
+
+.score-container {
+    /* Centraliza o placar e define a largura */
+    width: 150px; 
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+}
+
+.score-box {
+    /* Define o formato de trapézio */
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    top: -5px; /* Levanta o placar central um pouco sobre a linha principal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.score-box .score {
+    /* Garante que o placar seja bem visível */
+    font-size: 2.8em; 
+    font-weight: 900;
+}
+
+.status-box {
+    position: relative; 
+    top: -5px; /* Puxa o status 5px para cima, diminuindo o espaço em branco */
+    background: transparent; 
+    padding: 0;
+    font-size: 0.75rem;
+    color: #99AAB5; 
+    text-align: center;
+    
+    /* Garante que o status não fique na mesma linha do placar */
+    display: block;
+}
+
+/* Placar para Fases Decisivas (Ex: Vermelho/Laranja da imagem) */
+.bg-danger-score {
+    background-color: #e74c3c; /* Vermelho vibrante */
+}
+
+/* Placar para Fases Iniciais (Ex: Azul da imagem) */
+.bg-primary-score {
+    background-color: #3498db; /* Azul vibrante */
+}
