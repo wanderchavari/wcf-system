@@ -136,6 +136,7 @@ class WorldCupService
                 COALESCE(wp.classificacao_final,0) AS posicao,
                 wsa.nome_selecao AS selecao_atual, 
                 wsh.nome_selecao AS selecao_historica,
+                wsh.url_bandeira bandeira,
                 wt.ano_torneio,
                 wt.sede
             FROM wcf_torneio wt
@@ -190,8 +191,9 @@ class WorldCupService
     {
         $sql = "
             SELECT 
-                COALESCE(wsa.nome_selecao, wsh.nome_selecao) AS nome_selecao,
-                COALESCE(wsa.sigla_iso, wsh.sigla_iso) AS sigla_iso,
+                COALESCE(wsh.nome_selecao, wsa.nome_selecao) AS nome_selecao,
+                wsh.url_bandeira AS bandeira,
+                COALESCE(wsh.sigla_iso, wsa.sigla_iso) AS sigla_iso,
                 p.classificacao_final,
                 p.vitorias,
                 p.empates,

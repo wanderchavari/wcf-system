@@ -8,8 +8,10 @@ use Core\Helper;
 
 class CopasController extends BaseController 
 {
+    
+    const BANDEIRA_PADRAO = '/assets/img/selecoes/bandeiras/fifa.png';
+    
     // ... listar() ...
-
     public function index() // Mapeado para a rota /copas
     {
         // 1. Busca a lista de torneios
@@ -57,8 +59,11 @@ class CopasController extends BaseController
         $copaData = [
             'sede' => 'A definir',
             'campeao' => null,
+            'band_campeao' => null,
             'vice' => null,
+            'band_vice' => null,
             'terceiro' => null,
+            'band_terceiro' => null,
         ];
 
         // Variável de controle: se a Copa existe (tem sede ou resultados)
@@ -76,12 +81,15 @@ class CopasController extends BaseController
                 switch ((int)$part['posicao']) {
                     case 1:
                         $copaData['campeao'] = $selecaoNome;
+                        $copaData['band_campeao'] = $part['bandeira'];
                         break;
                     case 2:
                         $copaData['vice'] = $selecaoNome;
+                        $copaData['band_vice'] = $part['bandeira'];
                         break;
                     case 3:
                         $copaData['terceiro'] = $selecaoNome;
+                        $copaData['band_terceiro'] = $part['bandeira'];
                         break;
                 }
             }
@@ -111,8 +119,11 @@ class CopasController extends BaseController
             
             // Variáveis de exibição que você usa em detalhes.php
             'campeao' => $copaData['campeao'],
+            'band_campeao' => $copaData['band_campeao'] ?? self::BANDEIRA_PADRAO,
             'vice' => $copaData['vice'],
+            'band_vice' => $copaData['band_vice'] ?? self::BANDEIRA_PADRAO,
             'terceiro' => $copaData['terceiro'],
+            'band_terceiro' => $copaData['band_terceiro'] ?? self::BANDEIRA_PADRAO,
             
             // Variáveis do Layout (Header)
             'pageTitle' => $pageTitle, 
