@@ -265,3 +265,22 @@ footer.bg-dark {
 .bg-primary-score {
     background-color: #3498db; /* Azul vibrante */
 }
+
+.team-escudo-img {
+    /* 1. Define um tamanho fixo (ex: 30x30 pixels) */
+    width: 30px; 
+    height: 30px; 
+    
+    /* 2. Garante que a imagem se ajuste dentro do quadrado */
+    /* 'contain' garante que a imagem inteira seja visível */
+    object-fit: contain; 
+    
+    /* 3. Centraliza a imagem no espaço se 'object-fit' for usado */
+    object-position: center;
+    
+    /* Opcional: Para dar um toque visual (como um círculo) */
+    border-radius: 50%;
+    
+    /* Opcional: Transição suave para um efeito mais agradável */
+    transition: all 0.2s ease-in-out; 
+}

@@ -17,7 +17,9 @@
                     <div class="text-center mx-2 podium-col" style="width: 180px;">
                         <h4 class="copa-prata mb-1 fs-5">🥈 Vice-Campeão</h4>
                         <p class="lead fw-bold"><?= $vice ?></p>
-                        <div class="podium-bar" style="height: 150px;"></div>
+                        <div class="podium-bar" style="height: 150px;">
+                            <img src="<?= $band_vice ?>" alt="<?= $vice ?>" class="img-fluid mt-2" style="max-height: 40px;">
+                        </div>
                     </div>
                 <?php endif; ?>
 
@@ -25,7 +27,9 @@
                     <div class="text-center mx-2 podium-col" style="width: 200px;">
                         <h3 class="copa-ouro mb-1 fs-4">🏆 Campeão</h3>
                         <p class="lead fw-bold"><?= $campeao ?></p>
-                        <div class="podium-bar" style="height: 200px;"></div>
+                        <div class="podium-bar" style="height: 200px;">
+                            <img src="<?= $band_campeao ?>" alt="<?= $campeao ?>" class="img-fluid mt-2" style="max-height: 50px;">
+                        </div>
                     </div>
                 <?php endif; ?>
 
@@ -33,7 +37,9 @@
                     <div class="text-center mx-2 podium-col" style="width: 180px;">
                         <h5 class="copa-bronze mb-1 fs-5">🥉 3º Lugar</h5>
                         <p class="lead fw-bold"><?= $terceiro ?></p>
-                        <div class="podium-bar" style="height: 100px;"></div>
+                        <div class="podium-bar" style="height: 100px;">
+                            <img src="<?= $band_terceiro ?>" alt="<?= $terceiro ?>" class="img-fluid mt-2" style="max-height: 35px;">
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -62,15 +68,16 @@
                         
                             <thead>
                                 <tr>
-                                    <th scope="col">Pos.</th>
+                                    <th scope="col" style="width: 35px;">Pos.</th>
+                                    <th scope="col" style="width: 35px;">Bandeira</th>
                                     <th scope="col">Seleção</th>
-                                    <th scope="col" class="text-center">Pts</th>
-                                    <th scope="col" class="text-center">V</th>
-                                    <th scope="col" class="text-center">E</th>
-                                    <th scope="col" class="text-center">D</th>
-                                    <th scope="col" class="text-center">GP</th>
-                                    <th scope="col" class="text-center">GC</th>
-                                    <th scope="col" class="text-center">SG</th>
+                                    <th scope="col" class="text-center w-auto">Pts</th>
+                                    <th scope="col" class="text-center w-auto">V</th>
+                                    <th scope="col" class="text-center w-auto">E</th>
+                                    <th scope="col" class="text-center w-auto">D</th>
+                                    <th scope="col" class="text-center w-auto">GP</th>
+                                    <th scope="col" class="text-center w-auto">GC</th>
+                                    <th scope="col" class="text-center w-auto">SG</th>
                                 </tr>
                             </thead>
                             
@@ -78,6 +85,7 @@
                                 <?php foreach ($ranking as $posicao): ?>
 
                                 <?php 
+                                    $bandeira = $posicao['bandeira'] ?? '/assets/img/selecoes/bandeiras/fifa.png';
                                     // Define a classe de destaque baseada na posição
                                     $classDestaque = '';
                                     if ($posicao['classificacao_final'] == 1) {
@@ -91,6 +99,9 @@
 
                                 <tr class="<?= $classDestaque ?>">
                                     <td class="fw-bold"><?= $posicao['classificacao_final'] ?>º</td>
+                                    <td class="text-center w-auto">
+                                        <img src="<?= $bandeira ?>" alt="<?= $posicao['nome_selecao'] ?>" class="img-fluid team-escudo-img" style="max-height: 25px;">
+                                    </td>
                                     <td><?= $posicao['nome_selecao'] ?> (<?= $posicao['sigla_iso'] ?>)</td>
                                     
                                     <td class="text-center fw-bold"><?= $posicao['pontos_torneio'] ?></td>
