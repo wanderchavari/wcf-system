@@ -21,20 +21,61 @@
         <?php foreach ($jogos as $jogo): 
             // 1. Definição e Formatação dos Dados
             //$dataHora = date('d/m/Y H:i', strtotime($jogo['data_jogo']));
+            $timestamp_atual = time();
             $timestamp = strtotime($jogo['data_jogo']);
             $dataJogo = date('d/m/Y', $timestamp);
             $horaJogo = date('H:i', $timestamp);
 
             $faseGrupo = $jogo['fase'] . ($jogo['grupo'] ? " ({$jogo['grupo']})" : '');
-            // $statusJogo = $jogo['vitoria_penaltis'] ? 'PENALTIES' : 'FULLTIME'; // Simplificado por hora
-            $statusJogo = '';
+
+            $golsCasa = (int)$jogo['gols_casa'];
+            $golsFora = (int)$jogo['gols_fora'];
+            $placar = "{$golsCasa}:{$golsFora}";
             
-            // 2. Definição de Cores/Classes (Personalize no CSS)
-            // Exemplo: Azul para Oitavas/Quartas, Vermelho para Semifinal/Final
-            $scoreColorClass = 'bg-primary-score'; 
-            if (in_array($jogo['fase'], ['SEMIFINAL', 'FINAL', 'TERCEIRO'])) {
-                $scoreColorClass = 'bg-danger-score';
+            $gpCasa = (int)$jogo['gp_casa'];
+            $gpFora = (int)$jogo['gp_fora'];
+
+            $placar = "{$golsCasa} : {$golsFora}";
+
+            // --- Lógica de Destaque do Vencedor ---
+            $vencedorCasa = '';
+            $vencedorFora = '';
+            $scoreColorClass = 'bg-secondary'; // Cor padrão (cinza)
+            $statusJogo = 'AGUARDANDO';
+            $showPenalties = ($gpCasa > 0 || $gpFora > 0);
+            if ($timestamp_atual > $timestamp) {
+                $statusJogo = 'FIM DE JOGO';
             }
+
+            if ($showPenalties) {
+                // 1. Houve Pênaltis: O vencedor é determinado pelo placar dos pênaltis
+                if ($gpCasa > $gpFora) {
+                    $vencedorCasa = 'vencedor';
+                } elseif ($gpFora > $gpCasa) {
+                    $vencedorFora = 'vencedor';
+                }
+                $placar = "{$golsCasa}({$gpCasa}) : ({$gpFora}){$golsFora}";
+                $statusJogo = 'PÊNALTIS';
+                $scoreColorClass = 'bg-danger '; // Cor para placares finalizados com PÊNALTIS
+
+            } elseif ($golsCasa > $golsFora || $golsFora > $golsCasa) {
+                // 2. Vitória no Tempo Normal/Prorrogação
+                if ($golsCasa > $golsFora) {
+                    $vencedorCasa = 'vencedor';
+                } else {
+                    $vencedorFora = 'vencedor';
+                }
+                $statusJogo = 'FIM DE JOGO';
+                $scoreColorClass = 'bg-success'; // Cor para vitória
+                
+            } elseif ($golsCasa == $golsFora && ($timestamp_atual > $timestamp)) {
+                 // 3. Empate (após gols)
+                $statusJogo = 'FIM DE JOGO';
+                $scoreColorClass = 'bg-info text-dark';
+            }
+
+            $flagCasa = $jogo['bandeira_casa'];
+            $flagFora = $jogo['bandeira_fora'];
 
             // 3. Montagem do URL de Detalhes (Assumindo que temos o ID do jogo)
             // OBS: Você precisará garantir que o array $jogo contenha o 'id_jogo'
@@ -49,7 +90,7 @@
                     <div class="mx-5 my-1">
                         <i class="bi bi-calendar-event me-1 text-info"></i> <?= $dataJogo ?>
                         <i class="bi bi-clock me-1 text-info"></i> <?= $horaJogo ?>
-                        <i class="bi bi-badge-ad me-1 text-info"></i> <?= $jogo['estadio'] ?>
+                        <i class="bi bi-code-square me-1 text-info"></i> <?= $jogo['estadio'] ?>
                         <i class="bi bi-geo-alt-fill me-1 text-info"></i> <?= $jogo['cidade'] ?>
                     </div>
                     <div class="text-group mx-5 my-1">
@@ -60,22 +101,22 @@
                 <!-- <a href="<?= $linkDetalhes ?>" class="text-decoration-none"> -->
                     <div class="match-main d-flex justify-content-between align-items-center p-3">
                         
-                        <div class="team-info team-home text-end flex-grow-1 me-3">
+                        <div class="team-info team-home text-end flex-grow-1 me-3 <?= $vencedorCasa ?>">
                             <span class="team-name fw-bold text-light"><?= $jogo['selecao_casa'] ?></span>
-                            <span class="team-icon"></span>
+                            <img src="<?= $flagCasa ?>" alt="Bandeira <?= $jogo['selecao_casa'] ?>" class="team-icon">
                         </div>
 
                         <div class="score-container text-center align-items-center justify-content-center">
-                            <div class="score-box <?= $scoreColorClass ?> text-light">
-                                <span class="score fs-2 fw-bolder"><?= $jogo['gols_casa'] ?>:<?= $jogo['gols_fora'] ?></span>
-                            </div>
                             <div class="status-box small fw-bold text-light-50 mt-1">
                                 <?= $statusJogo ?>
                             </div>
+                            <div class="score-box <?= $scoreColorClass ?> text-light">
+                                <span class="score fs-2 fw-bolder"><?= $placar ?></span>
+                            </div>
                         </div>
 
-                        <div class="team-info team-away text-start flex-grow-1 ms-3">
-                            <span class="team-icon"></span>
+                        <div class="team-info team-away text-start flex-grow-1 ms-3 <?= $vencedorFora ?>">
+                            <img src="<?= $flagFora ?>" alt="Bandeira <?= $jogo['selecao_fora'] ?>" class="team-icon">
                             <span class="team-name fw-bold text-light"><?= $jogo['selecao_fora'] ?></span>
                         </div>
                     </div>

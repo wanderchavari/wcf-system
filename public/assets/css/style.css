@@ -8,6 +8,8 @@
 }
 
 body {
+    padding-top: 56px; /* Espaço para a navbar fixa */
+
     /* 1. Aplica a cor verde escura como fallback e para as laterais */
     background-color: var(--wcf-verde-escuro) !important; 
     
@@ -178,6 +180,7 @@ footer.bg-dark {
 .match-main {
     background-color: #34495e; /* Um fundo escuro principal */
     position: relative;
+    min-height: 120px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -186,7 +189,9 @@ footer.bg-dark {
 
 /* AJUSTE NO TAMANHO DO NOME DO TIME */
 .team-info {
-    flex-grow: 0; /* Impede o crescimento excessivo dos times */
+    flex-grow: 1; /* Impede o crescimento excessivo dos times */
+    display: flex;
+    align-items: center;
     max-width: 45%; /* Limite para que o texto não invada o centro */
     padding: 0; /* Remove o padding padrão do Bootstrap (p-3) */
 }
@@ -200,31 +205,40 @@ footer.bg-dark {
 /* Bolinhas/Ícones (simulação da bolinha de cristal da imagem) */
 .team-icon {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 10px 10px, #ffffff, #888888);
-    border: 1px solid #555;
+    width: 40px; 
+    height: 30px; 
+    border-radius: 3px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     vertical-align: middle;
     margin: 0 10px;
     /* Se for usar a imagem da bandeira, ajuste o background */
 }
 
 /* Alinhamento dos Times */
-.team-home { padding-right: 90px; }
-.team-icon { order: -1; margin-right: 10px; } /* Ícone à esquerda do nome do time da casa */
+.team-home { 
+    justify-content: flex-end; /* Alinha o conteúdo (nome e bandeira) à direita */
+    text-align: right;
+    padding-right: 90px; 
+}
+/*.team-icon { order: -1; margin-right: 10px; }*/ /* Ícone à esquerda do nome do time da casa */
 
-.team-away { padding-left: 90px; }
-.team-icon { margin-left: 10px; } /* Ícone à direita do nome do time de fora */
+.team-away {
+    justify-content: flex-start; /* Alinha o conteúdo (bandeira e nome) à esquerda */
+    text-align: left; 
+    padding-left: 90px; 
+}
+/*.team-icon { margin-left: 10px; }*/ /* Ícone à direita do nome do time de fora */
 
 .score-container {
     /* Centraliza o placar e define a largura */
-    width: 150px; 
+    width: 190px; 
     position: absolute;
     z-index: 10;
     left: 50%;
     transform: translateX(-50%);
     top: 15px;
+    padding-bottom: 25px;
 }
 
 .score-box {
@@ -283,4 +297,16 @@ footer.bg-dark {
     
     /* Opcional: Transição suave para um efeito mais agradável */
     transition: all 0.2s ease-in-out; 
+}
+
+/* Destaque para o Vencedor */
+.vencedor .team-name {
+    color: #00FF00 !important; /* Exemplo: Verde Neon */
+    font-weight: 900 !important;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); /* Efeito de brilho no texto */
+}
+
+.vencedor .team-icon {
+    box-shadow: 0 0 8px 3px rgba(0, 255, 0, 0.7), 0 2px 5px rgba(0, 0, 0, 0.5); /* Brilho verde na bandeira */
+    border: 1px solid #00FF00; /* Borda sutil */
 }

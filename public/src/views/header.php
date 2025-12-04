@@ -16,7 +16,7 @@
 
 <body class="d-flex flex-column min-vh-100 text-light">
 
-<nav class='navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary'>
+<nav class='navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary fixed-top z-index-999'>
     <div class='container'>
         <a class='navbar-brand' href='/'>WCF System</a>
         <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
