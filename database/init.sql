@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS wcf_participacao (
     FOREIGN KEY (fk_selecao) REFERENCES wcf_selecao(id_selecao)
 );
 
--- Tebela wcf_jogo
+-- Tabela wcf_jogo
 CREATE TABLE wcf_jogo (
     id_jogo INT AUTO_INCREMENT PRIMARY KEY,
     fk_ano_torneio INT NOT NULL,
@@ -97,6 +97,47 @@ CREATE TABLE wcf_jogo (
     FOREIGN KEY (fk_ano_torneio) REFERENCES wcf_torneio(ano_torneio),
     FOREIGN KEY (fk_selecao_casa) REFERENCES wcf_selecao(id_selecao),
     FOREIGN KEY (fk_selecao_fora) REFERENCES wcf_selecao(id_selecao)
+);
+
+-- Tabela wcf_pessoas
+CREATE TABLE wcf_pessoas (
+    id_pessoa INT PRIMARY KEY AUTO_INCREMENT,
+    nome_completo VARCHAR(255) NOT NULL,
+    data_nascimento DATE,
+    pais VARCHAR(255) NOT NULL,
+    funcao VARCHAR(50) NOT NULL,
+    posicao VARCHAR(50)
+);
+
+-- Tabela wcf_escalacoes
+CREATE TABLE wcf_escalacoes (
+	id_escalacao INT PRIMARY KEY AUTO_INCREMENT,
+    id_jogo INT NOT NULL,
+    id_pessoa INT NOT NULL,
+    id_selecao INT NOT NULL,
+    condicao VARCHAR(50) NOT NULL, -- Ex: 'Titular', 'Reserva', 'Técnico', 'Substituído'
+    numero INT,
+    posicao VARCHAR(50),
+    FOREIGN KEY (id_jogo) REFERENCES wcf_jogo(id_jogo),
+    FOREIGN KEY (id_pessoa) REFERENCES wcf_pessoas(id_pessoa),
+    FOREIGN KEY (id_selecao) REFERENCES wcf_selecao(id_selecao)
+);
+
+-- Tabela wcf_eventos
+CREATE TABLE wcf_eventos (
+    id_evento INT PRIMARY KEY AUTO_INCREMENT,
+    id_jogo INT NOT NULL,
+    tempo INT NOT NULL,
+    tipo VARCHAR(50) NOT NULL, -- Ex: 'Gol', 'Cartão Amarelo', 'Substituição: Saiu'
+    id_selecao INT NOT NULL,
+    id_pessoa INT,
+    id_pessoa_substituto INT,
+    observacaoes TEXT,
+    
+    FOREIGN KEY (id_jogo) REFERENCES wcf_jogo(id_jogo),
+    FOREIGN KEY (id_pessoa) REFERENCES wcf_pessoas(id_pessoa),
+    FOREIGN KEY (id_pessoa_substituto) REFERENCES wcf_pessoas(id_pessoa),
+    FOREIGN KEY (id_selecao) REFERENCES wcf_selecao(id_selecao)
 );
 
 -- #################################################################
