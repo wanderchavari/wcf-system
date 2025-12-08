@@ -145,6 +145,8 @@
                                     <th scope="col">Data/Hora</th>
                                     <th scope="col">Fase/Grupo</th>
                                     <th scope="col">Estádio / Cidade</th>
+                                    <th scope="col">Público</th>
+                                    <th scope="col">Árbitro</th>
                                     <th scope="col" class="text-center">Jogos</th>
                                 </tr>
                             </thead>
@@ -162,17 +164,21 @@
                                     $penaltis = $jogo['vitoria_penaltis'] ? ' (Pênaltis)' : '';
                                 ?>
 
-                                <tr>
-                                    <td style="white-space: nowrap;"><?= $dataHora ?></td>
-                                    <td><?= $faseGrupo ?></td>
-                                    <td><?= $jogo['estadio'] ?> / <?= $jogo['cidade'] ?></td>
-                                    <td class="text-center fw-bold">
-                                        <?= $resultado ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="d-none d-lg-table-cell small">Observações: <?= $jogo['observacao'] ?></td>
-                                </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;"><?= $dataHora ?></td>
+                                        <td><?= $faseGrupo ?></td>
+                                        <td><?= $jogo['estadio'] ?> / <?= $jogo['cidade'] ?></td>
+                                        <td><?= number_format($jogo['publico'], 0, ',', '.') ?></td>
+                                        <td><?= $jogo['arbitro'] ?></td>
+                                        <td class="text-center fw-bold">
+                                            <?= $resultado ?>
+                                        </td>
+                                    </tr>
+                                    <?if ($jogo['observacao']) {?>
+                                        <tr>
+                                            <td colspan="7" class="d-none d-lg-table-cell small">Observações: <?= $jogo['observacao'] ?></td>
+                                        </tr>
+                                    <?}?>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
