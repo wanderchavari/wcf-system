@@ -30,10 +30,13 @@ class GameService
                 s1.nome_selecao AS selecao_casa,
                 s1.url_bandeira AS bandeira_casa,
                 s2.nome_selecao AS selecao_fora,
-                s2.url_bandeira AS bandeira_fora
+                s2.url_bandeira AS bandeira_fora,
+                p.nome_completo AS arbitro,
+                wg.publico
             FROM wcf_jogo wg
             INNER JOIN wcf_selecao s1 ON s1.id_selecao = wg.fk_selecao_casa
             INNER JOIN wcf_selecao s2 ON s2.id_selecao = wg.fk_selecao_fora
+             LEFT JOIN wcf_pessoas p ON p.id_pessoa = wg.fk_arbitro_principal
             WHERE wg.fk_ano_torneio = :year
             ORDER BY wg.data_jogo ASC;
         ";
