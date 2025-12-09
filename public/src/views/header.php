@@ -91,7 +91,48 @@
                     <a class="nav-link" href="/estatisticas">Estatísticas</a>
                 </li>
 
-                <!-- <li class='nav-item'><a class='nav-link' href='/admin'>Backend / Admin</a></li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" 
+                    id="navbarDropdownManutencao" 
+                    role="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+                        Manutenção
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownManutencao">
+                        
+                        <li><a class="dropdown-item" href="/manutencao/confederacoes">
+                            Confederações
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            Torneios
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            Seleções
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            Pessoas
+                        </a></li>
+
+                        <li><hr class="dropdown-divider"></li>
+                        
+                        <li><a class="dropdown-item" href="">
+                            Participações
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            Jogos
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            Escalações
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            Eventos
+                        </a></li>
+                        
+                        
+                    </ul>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -127,10 +168,12 @@
         // Seleciona os elementos pai dos dropdowns para gerenciar o estado 'active'
         const copasNavItem = document.getElementById('navbarDropdownCopas').closest('.nav-item');
         const rankingNavItem = document.getElementById('navbarDropdownRanking').closest('.nav-item');
+        const manutencaoNavItem = document.getElementById('navbarDropdownManutencao').closest('.nav-item');
         
         // Seleciona o botão que dispara o dropdown
         const copasToggle = document.getElementById('navbarDropdownCopas');
         const rankingToggle = document.getElementById('navbarDropdownRanking');
+        const manutencaoToggle = document.getElementById('navbarDropdownManutencao');
         
         // =================================================================
         // 1. LIMPEZA DE ESTADO: Remove 'active' do pai quando o dropdown fecha

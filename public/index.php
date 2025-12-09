@@ -51,6 +51,11 @@ $router->add('/ranking', 'RankingController@ranking');
 $router->add('/ranking/{year}', 'RankingController@ranking');
 $router->add('/estatisticas', 'AnaliseController@estatisticas');
 $router->add('/jogos/{ano}', 'CopasController@jogos');
+$router->add(uri: '/manutencao/confederacoes', controllerMethod: 'ConfederationController@save');
+$router->add(uri: '/manutencao/confederacoes/editar/{id}', controllerMethod: 'ConfederationController@save'); 
+$router->add(uri: '/manutencao/confederacoes/excluir/{id}', controllerMethod: 'ConfederationController@delete');
+$router->add(uri: '/manutencao/confederacoes/export', controllerMethod: 'ConfederationController@exportData');
+
 
 // Despacha a requisição (faz o Controller/Método rodar)
 $router->dispatch();
