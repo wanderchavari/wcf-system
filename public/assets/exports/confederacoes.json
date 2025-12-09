@@ -1,0 +1,32 @@
+[
+    {
+        "sigla": "CONMEBOL",
+        "nome_completo": "Confederação Sul-Americana de Futebol",
+        "url_logo": ""
+    },
+    {
+        "sigla": "UEFA",
+        "nome_completo": "União das Associações Europeias de Futebol",
+        "url_logo": null
+    },
+    {
+        "sigla": "CONCACAF",
+        "nome_completo": "Confederação de Futebol da América do Norte, Central e Caribe",
+        "url_logo": null
+    },
+    {
+        "sigla": "AFC",
+        "nome_completo": "Confederação Asiática de Futebol",
+        "url_logo": null
+    },
+    {
+        "sigla": "CAF",
+        "nome_completo": "Confederação Africana de Futebol",
+        "url_logo": null
+    },
+    {
+        "sigla": "OFC",
+        "nome_completo": "Confederação de Futebol da Oceania",
+        "url_logo": null
+    }
+]

@@ -5,12 +5,14 @@ namespace Core;
 use Backend\Service\WorldCupService;
 use Backend\Service\RankingService;
 use Backend\Service\GameService;
+use Backend\Service\ConfederationService;
 
 abstract class BaseController
 {
     protected WorldCupService $worldCupService;
     protected RankingService $rankingService;
     protected GameService $gameService;
+    protected ConfederationService $confederationService;
 
     public function __construct()
     {
@@ -18,6 +20,7 @@ abstract class BaseController
         $this->worldCupService = new WorldCupService();
         $this->rankingService = new RankingService();
         $this->gameService = new GameService();
+        $this->confederationService = new ConfederationService();
     }
 
     /**
@@ -131,6 +134,41 @@ abstract class BaseController
             'listMode' => $listMode,
             'isGeneralRanking' => ($listMode !== null || $year === null), // Flag para a View
         ];
+    }
+
+    // =================================================================
+    // MÉTODOS DE REDIRECIONAMENTO E SESSÃO (Adicione aqui)
+    // =================================================================
+
+    protected function redirect(string $url): void
+    {
+        header("Location: " . $url);
+        exit;
+    }
+
+    protected function setSessionMessage(string $message): void
+    {
+        // Usa a superglobal $_SESSION
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['message'] = $message;
+    }
+
+    protected function getSessionMessage(): ?string
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return $_SESSION['message'] ?? null;
+    }
+
+    protected function clearSessionMessage(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        unset($_SESSION['message']);
     }
 
 }

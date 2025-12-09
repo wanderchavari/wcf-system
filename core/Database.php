@@ -83,4 +83,24 @@ class Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // Recomendo usar FETCH_ASSOC
     }
 
+    /**
+     * Executa uma query SQL de DML (INSERT, UPDATE, DELETE).
+     * @param string $sql A query SQL a ser executada.
+     * @param array $params [Opcional] Array de parâmetros para Prepared Statements.
+     * @return bool Retorna true em sucesso, ou lanca PDOException.
+     */
+    public static function execute(string $sql, array $params = []): bool
+    {
+        $pdo = self::getConnection();
+        
+        // 1. Prepara a query
+        $stmt = $pdo->prepare($sql);
+        
+        // 2. Executa a query
+        // Em caso de erro (ex: violação de chave primária/única), uma PDOException será lançada.
+        return $stmt->execute($params); 
+        
+        // O método não precisa de fetchAll()
+    }
+
 }

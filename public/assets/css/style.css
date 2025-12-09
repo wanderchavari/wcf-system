@@ -310,3 +310,17 @@ footer.bg-dark {
     box-shadow: 0 0 8px 3px rgba(0, 255, 0, 0.7), 0 2px 5px rgba(0, 0, 0, 0.5); /* Brilho verde na bandeira */
     border: 1px solid #00FF00; /* Borda sutil */
 }
+
+/* Força a cor do placeholder para Branco (ou um cinza bem claro) */
+.form-control::placeholder { /* Padrão W3C/Chrome/Firefox */
+    color: white !important;
+    opacity: 1; /* Garante que a opacidade não está reduzindo a visibilidade */
+}
+.form-control::-webkit-input-placeholder { /* Suporte para navegadores Webkit (Chrome/Safari) */
+    color: white !important;
+    opacity: 1;
+}
+.form-control:-ms-input-placeholder { /* Suporte para IE 10+ */
+    color: white !important;
+    opacity: 1;
+}
