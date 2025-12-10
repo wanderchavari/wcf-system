@@ -55,7 +55,10 @@ $router->add(uri: '/manutencao/confederacoes', controllerMethod: 'ConfederationC
 $router->add(uri: '/manutencao/confederacoes/editar/{id}', controllerMethod: 'ConfederationController@save'); 
 $router->add(uri: '/manutencao/confederacoes/excluir/{id}', controllerMethod: 'ConfederationController@delete');
 $router->add(uri: '/manutencao/confederacoes/export', controllerMethod: 'ConfederationController@exportData');
-
+$router->add(uri: '/manutencao/torneios', controllerMethod: 'TorneioController@save');
+$router->add(uri: '/manutencao/torneios/editar/{id}', controllerMethod: 'TorneioController@save');
+$router->add(uri: '/manutencao/torneios/excluir/{id}', controllerMethod: 'TorneioController@delete');
+$router->add(uri: '/manutencao/torneios/export', controllerMethod: 'TorneioController@exportData');
 
 // Despacha a requisição (faz o Controller/Método rodar)
 $router->dispatch();

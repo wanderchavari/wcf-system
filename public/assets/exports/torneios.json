@@ -1,0 +1,194 @@
+[
+    {
+        "ano_torneio": 1930,
+        "sede": "Uruguai",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1934,
+        "sede": "Itália",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1938,
+        "sede": "França",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1950,
+        "sede": "Brasil",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1954,
+        "sede": "Suíça",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1958,
+        "sede": "Suécia",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1962,
+        "sede": "Chile",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1966,
+        "sede": "Inglaterra",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1970,
+        "sede": "México",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1971,
+        "sede": "China",
+        "ponto_por_vitoria": 2,
+        "genero": "F",
+        "url_cartaz": "",
+        "url_mascote": ""
+    },
+    {
+        "ano_torneio": 1974,
+        "sede": "Alemanha Ocidental",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1978,
+        "sede": "Argentina",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1982,
+        "sede": "Espanha",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1986,
+        "sede": "México",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1990,
+        "sede": "Itália",
+        "ponto_por_vitoria": 2,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1994,
+        "sede": "EUA",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 1998,
+        "sede": "França",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2002,
+        "sede": "Coréia do Sul e Japão",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2006,
+        "sede": "Alemanha",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2010,
+        "sede": "África do Sul",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2014,
+        "sede": "Brasil",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2018,
+        "sede": "Rússia",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2022,
+        "sede": "Catar",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    },
+    {
+        "ano_torneio": 2026,
+        "sede": "Canadá, Estados Unidos e México",
+        "ponto_por_vitoria": 3,
+        "genero": "M",
+        "url_cartaz": null,
+        "url_mascote": null
+    }
+]

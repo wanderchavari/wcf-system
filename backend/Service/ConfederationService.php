@@ -159,4 +159,10 @@ class ConfederationService extends MaintenanceService
         }
     }
 
+    public function getDataToExport(): array
+    {
+        $sql = "SELECT sigla, nome_completo, url_logo FROM {$this->tableName} order by {$this->primaryKey} ASC";
+        return \Core\Database::query($sql);
+    }
+
 }

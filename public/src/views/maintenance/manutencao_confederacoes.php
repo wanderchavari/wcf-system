@@ -8,12 +8,20 @@
         }
         return "?sort={$column}&direction={$new_dir}";
     };
+use Core\Helper; 
 ?>
 
 <div class="container mt-5">
     <h2 class="text-light fw-bold mb-4"><?= $pageTitle ?? 'Manutenção' ?></h2>
 
-    <?= $message ?? '' ?>
+    <?php if (!empty($message)): ?>
+        <?= $message ?>
+    <?php else: ?>
+        <?php if (isset($_SESSION['message'])): ?>
+            <?= $_SESSION['message'] ?>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <form method="GET" action="/manutencao/confederacoes" class="mb-4">
         <div class="input-group">
@@ -72,46 +80,25 @@
         <table class="table table-dark table-striped table-hover border-secondary">
             <thead>
                 <tr>
-                    <th scope="col">
-                        <a href="<?= $getSortLink('id_confederacao', $current_sort ?? '', $current_direction ?? '') ?>" class="text-light text-decoration-none">
-                            ID
-                            <?php if ($current_sort === 'id_confederacao'): ?>
-                                <i class="fas fa-arrow-<?= ($current_direction === 'asc') ? 'up' : 'down' ?>"></i>
-                            <?php endif; ?>
-                        </a>
-                    </th>
-                    <th>
-                        <a href="<?= $getSortLink('sigla', $current_sort ?? '', $current_direction ?? '') ?>" class="text-light text-decoration-none">
-                            Sigla
-                            <?php if ($current_sort === 'sigla'): ?>
-                                <i class="fas fa-arrow-<?= ($current_direction === 'asc') ? 'up' : 'down' ?>"></i>
-                            <?php endif; ?>
-                        </a>
-                    </th>
-                    <th>
-                        <a href="<?= $getSortLink('nome_completo', $current_sort ?? '', $current_direction ?? '') ?>" class="text-light text-decoration-none">
-                            Nome Completo
-                            <?php if ($current_sort === 'nome_completo'): ?>
-                                <i class="fas fa-arrow-<?= ($current_direction === 'asc') ? 'up' : 'down' ?>"></i>
-                            <?php endif; ?>
-                        </a>
-                    </th>
-                    <th>URL Logo</th>
+                    <th><?= Helper::sortableHeader('ID', 'id_confederacao', $current_sort, $current_direction, $baseRoute) ?></th>
+                    <th><?= Helper::sortableHeader('Sigla', 'sigla', $current_sort, $current_direction, $baseRoute) ?></th>
+                    <th><?= Helper::sortableHeader('Confederação', 'nome_completo', $current_sort, $current_direction, $baseRoute) ?></th>
+                    <th>Logo</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($data as $conf): ?>
                 <tr>
-                    <td><?= $conf['id_confederacao'] ?></td>
-                    <td><?= htmlspecialchars($conf['sigla']) ?></td>
-                    <td><?= htmlspecialchars($conf['nome_completo']) ?></td>
+                    <td><?= Helper::h($conf['id_confederacao']) ?></td>
+                    <td><?= Helper::h($conf['sigla']) ?></td>
+                    <td><?= Helper::h($conf['nome_completo']) ?></td>
                     <td>
                         <?php 
                             $urlLogo = $conf['url_logo'] ?? ''; 
                             if (!empty($urlLogo)): 
                         ?>
-                        <a href="<?= htmlspecialchars($urlLogo) ?>" target="_blank" class="btn btn-sm btn-info" title="Abrir URL da Logo">
+                        <a href="<?= Helper::h($urlLogo) ?>" target="_blank" class="btn btn-sm btn-info" title="Abrir URL da Logo">
                             <i class="fas fa-link"></i>
                         </a>
                         <?php else: ?>

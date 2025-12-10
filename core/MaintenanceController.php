@@ -18,9 +18,13 @@ abstract class MaintenanceController extends BaseController
     protected string $listViewName;      // Ex: 'maintenance/manutencao_confederacoes'
     protected string $formViewName;      // Ex: 'maintenance/manutencao_confederacoes_form'
     protected string $baseRoute;         // Ex: '/manutencao/confederacoes'
+    protected string $titulo;
+    protected string $subTitulo;
+    protected string $detalhes;
     
 
-    public function __construct(string $entityName, string $listView, string $formView, string $baseRoute, MaintenanceService $service)
+    public function __construct(string $entityName, string $listView, string $formView, string $baseRoute,
+                                string $titulo, string $subTitulo, string $detalhes, MaintenanceService $service)
     {
         parent::__construct();
         $this->entityName = $entityName;
@@ -28,6 +32,26 @@ abstract class MaintenanceController extends BaseController
         $this->formViewName = $formView;
         $this->baseRoute = $baseRoute;
         $this->service = $service; 
+        $this->titulo = $titulo;
+        $this->subTitulo = $subTitulo;
+        $this->detalhes = $detalhes;
+    }
+
+    /**
+     * Lida com requisições GET, direcionando para a listagem ou formulário de edição.
+     * Este método é chamado pelo save() quando a requisição NÃO é POST.
+     * * @param int|null $id O ID da entidade, se presente na URI.
+     * @return mixed O resultado da chamada a index() ou form().
+     */
+    protected function handleGetRequest(?int $id = null)
+    {
+        if ($id === null) {
+            // Rota estática /manutencao/entidade (GET) -> Vai para a listagem
+            return $this->index(); 
+        } else {
+            // Rota dinâmica /manutencao/entidade/editar/{id} (GET) -> Vai para o formulário de edição
+            return $this->form($id); 
+        }
     }
 
     // =================================================================
@@ -47,15 +71,34 @@ abstract class MaintenanceController extends BaseController
 
         // Chama o método GENÉRICO do Service para obter os dados
         $entities = $this->service->getAll($sort, $dir, $searchTerm);
+        // var_dump($entities);
+        // die();
+
         
         // Define o título da página
-        $pageTitle = 'Manutenção de ' . $this->formatNameEntity($this->entityName);
+        $pageTitle = '';
+        $pageSubtitle = '';
+        $pageDetail = '';
+        if (!empty($this->titulo)) {
+            $pageTitle = $this->titulo;
+        } else {
+            $pageTitle = 'Manutenção de ' . $this->formatNameEntity($this->entityName);
+        }
+        if (!empty($this->subTitulo)) {
+            $pageSubtitle = $this->subTitulo;
+        }
+        if (!empty($this->detalhes)) {
+            $pageDetail = $this->detalhes;
+        }
         
         // Renderiza a View de Listagem
         $this->render($this->listViewName, [
             'pageTitle' => $pageTitle,
+            'pageSubtitle' => $pageSubtitle,
+            'pageDetail' => $pageDetail,
             'message' => $message,
             'data' => $entities,
+            'baseRoute' => $this->baseRoute,
             'current_sort' => $sort, 
             'current_direction' => $dir,
             'searchTerm' => $searchTerm
@@ -99,7 +142,8 @@ abstract class MaintenanceController extends BaseController
             'pageTitle' => $pageTitle,
             'message' => $message,
             'data' => $entityData, // Ex: 'confederacao' => $entityData
-            'isEditing' => $isEditing 
+            'isEditing' => $isEditing,
+            'baseRoute' => $this->baseRoute
         ]);
         
         $this->clearSessionMessage();

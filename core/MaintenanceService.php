@@ -67,15 +67,11 @@ abstract class MaintenanceService
 
         // 3. Aplica Ordenação
         $sql .= " ORDER BY {$sort} {$dir}";
+        // var_dump($sql, $params);
+        // die();
         
         // 4. Executa e retorna
         return Database::query($sql, $params);
-    }
-
-    public function getDataToExport(): array
-    {
-        $sql = "SELECT sigla, nome_completo, url_logo FROM {$this->tableName} order by {$this->primaryKey} ASC";
-        return Database::query($sql);
     }
 
     // =================================================================
@@ -89,6 +85,8 @@ abstract class MaintenanceService
         // Usa a chave primária dinâmica
         $sql = "SELECT * FROM {$this->tableName} WHERE {$this->primaryKey} = :id";
         $result = Database::query($sql, [':id' => $id]);
+        // var_dump($result);
+        // die();
         
         return $result[0] ?? null;
     }
@@ -124,5 +122,7 @@ abstract class MaintenanceService
      * @return bool True em caso de sucesso, ou string com a mensagem de erro.
      */
     abstract public function exportToJson(string $filePath): bool|string;
+
+    abstract public function getDataToExport(): array;
 
 }
