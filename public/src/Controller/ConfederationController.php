@@ -21,7 +21,10 @@ class ConfederationController extends MaintenanceController
             listView: 'maintenance/manutencao_confederacoes',
             formView: 'maintenance/manutencao_confederacoes_form',
             baseRoute: '/manutencao/confederacoes',
-            service: $confederationService
+            service: $confederationService,
+            titulo: '',
+            subTitulo: 'Cadastro das Confederações de Futebol',
+            detalhes: '',
         );
     }
 
@@ -29,14 +32,8 @@ class ConfederationController extends MaintenanceController
     {
         //var_dump($_SERVER["REQUEST_METHOD"], $id, $_POST);
         //die();
-        if ($_SERVER["REQUEST_METHOD"] !== "POST" && $id === null) {
-            // Redirecionamos a execução para o método index()
-            return $this->index(); 
-        }
-
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-            // Se não for POST, volta para o formulário
-            return $this->form($id); 
+            return $this->handleGetRequest($id);
         }
 
         $idUpdate = $_POST['id'] ?? $id;
@@ -47,7 +44,7 @@ class ConfederationController extends MaintenanceController
         // Lógica de Validação...
         if (empty($sigla) || empty($nome_completo)) {
             $this->setSessionMessage('<div class="alert alert-danger" role="alert">A Sigla e o Nome Completo são obrigatórios.</div>');
-            return $this->form($id);
+            return $this->index();
         }
         
         // Define se é criação ou atualização

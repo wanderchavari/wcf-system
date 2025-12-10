@@ -94,7 +94,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" 
                     id="navbarDropdownManutencao" 
-                    role="button" 
+                    role="button"
                     data-bs-toggle="dropdown" 
                     aria-expanded="false">
                         Manutenção
@@ -104,7 +104,7 @@
                         <li><a class="dropdown-item" href="/manutencao/confederacoes">
                             Confederações
                         </a></li>
-                        <li><a class="dropdown-item" href="">
+                        <li><a class="dropdown-item" href="/manutencao/torneios">
                             Torneios
                         </a></li>
                         <li><a class="dropdown-item" href="">
